@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --radius: 1rem;
+  --background: 222 47% 7%;
+  --foreground: 210 40% 98%;
+  --card: 222 47% 9%;
+  --muted: 217 32.6% 17.5%;
+  --border: 217 32.6% 23.5%;
+  --accent: 198 93% 60%;
+  --success: 147.2 93.1% 60%;
+  --error: 9 100% 64%;
+}
+
+.light {
+  --background: 0 0% 98%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --muted: 210 40% 96%;
+  --border: 214 32% 91%;
+  --accent: 198 93% 45%;
+  --success: 95 80.5% 42.2%;
+  --error: 10 96.4% 78%;
+}
+
+.container-lg { @apply max-w-6xl mx-auto px-4; }
+.card-base { @apply bg-card border border-border rounded-2xl shadow-soft; }
+.btn-base { @apply inline-flex items-center justify-center gap-2 rounded-2xl border border-border px-4 py-2 hover:opacity-95 active:translate-y-px transition; }
+.input-base { @apply bg-card border border-border rounded-2xl px-3 py-2 outline-none focus:ring-2 focus:ring-accent/40; }
+.select-base { @apply bg-card border border-border rounded-2xl px-3 py-2 outline-none focus:ring-2 focus:ring-accent/40; }
+.badge { @apply inline-block text-xs px-2 py-0.5 rounded-full }
+.small { @apply text-sm text-gray-300; }
+.grid-cards { @apply grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6; }
+.header-glass { @apply sticky top-0 z-20 backdrop-blur bg-card/80 border-b border-border; }
