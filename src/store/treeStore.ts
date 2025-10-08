@@ -34,12 +34,20 @@ export const useTreeStore = create<TreeState>((set, get) => {
         items: state.items.map((item) =>
           item.id === id ? { ...item, isExpanded: !item.isExpanded } : item
         ),
+        filteredItems: state.filteredItems.map((item) =>
+          item.id === id ? { ...item, isExpanded: !item.isExpanded } : item
+        ),
       }));
     },
 
     setHovered: (id: string | null, isHovered: boolean) => {
       set((state) => ({
         items: state.items.map((item) =>
+          item.id === id
+            ? { ...item, isHovered }
+            : { ...item, isHovered: false }
+        ),
+        filteredItems: state.filteredItems.map((item) =>
           item.id === id
             ? { ...item, isHovered }
             : { ...item, isHovered: false }
