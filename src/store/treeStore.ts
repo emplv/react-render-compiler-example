@@ -5,6 +5,7 @@ import { createSampleData, createLargeSampleData } from "./sampleData";
 
 interface TreeState {
   items: TreeItem[];
+  filteredItems: TreeItem[];
   searchQuery: string;
   priorityFilter: "all" | Priority;
 
@@ -13,64 +14,75 @@ interface TreeState {
   setHovered: (id: string | null, isHovered: boolean) => void;
   setSearchQuery: (query: string) => void;
   setPriorityFilter: (filter: "all" | Priority) => void;
+  findAndSetFilteredItems: () => void;
 
   // Computed
-  getFilteredItems: () => TreeItem[];
   // getMatchCount: () => { matched: number; total: number };
 }
 
-export const useTreeStore = create<TreeState>((set, get) => ({
-  // items: createSampleData(),
-  items: createLargeSampleData(),
-  searchQuery: "",
-  priorityFilter: "all",
+export const useTreeStore = create<TreeState>((set, get) => {
+  // const items = createSampleData()
+  const items = createLargeSampleData();
+  return {
+    items,
+    filteredItems: items,
+    searchQuery: "",
+    priorityFilter: "all",
 
-  toggleExpanded: (id: string) => {
-    set((state) => ({
-      items: state.items.map((item) =>
-        item.id === id ? { ...item, isExpanded: !item.isExpanded } : item
-      ),
-    }));
-  },
+    toggleExpanded: (id: string) => {
+      set((state) => ({
+        items: state.items.map((item) =>
+          item.id === id ? { ...item, isExpanded: !item.isExpanded } : item
+        ),
+      }));
+    },
 
-  setHovered: (id: string | null, isHovered: boolean) => {
-    set((state) => ({
-      items: state.items.map((item) =>
-        item.id === id ? { ...item, isHovered } : { ...item, isHovered: false }
-      ),
-    }));
-  },
+    setHovered: (id: string | null, isHovered: boolean) => {
+      set((state) => ({
+        items: state.items.map((item) =>
+          item.id === id
+            ? { ...item, isHovered }
+            : { ...item, isHovered: false }
+        ),
+      }));
+    },
 
-  setSearchQuery: (query: string) => {
-    set({ searchQuery: query });
-  },
+    setSearchQuery: (query: string) => {
+      set({ searchQuery: query });
+      get().findAndSetFilteredItems();
+    },
 
-  setPriorityFilter: (filter: "all" | Priority) => {
-    set({ priorityFilter: filter });
-  },
+    setPriorityFilter: (filter: "all" | Priority) => {
+      set({ priorityFilter: filter });
+      get().findAndSetFilteredItems();
+    },
 
-  getFilteredItems: () => {
-    const { items, searchQuery, priorityFilter } = get();
+    findAndSetFilteredItems: () => {
+      const { items, searchQuery, priorityFilter } = get();
 
-    if (searchQuery === "" && priorityFilter === "all") {
-      return items;
-    }
+      if (searchQuery === "" && priorityFilter === "all") {
+        set({ filteredItems: items });
+        return;
+      }
 
-    return items.filter((item) =>
-      itemOrDescendantsMatch(item, items, searchQuery, priorityFilter)
-    );
-  },
+      set({
+        filteredItems: items.filter((item) =>
+          itemOrDescendantsMatch(item, items, searchQuery, priorityFilter)
+        ),
+      });
+    },
 
-  // getMatchCount: () => {
-  //   const { items } = get();
-  //   const filteredItems = get().getFilteredItems();
+    // getMatchCount: () => {
+    //   const { items } = get();
+    //   const filteredItems = get().getFilteredItems();
 
-  //   return {
-  //     matched: filteredItems.length,
-  //     total: items.length,
-  //   };
-  // },
-}));
+    //   return {
+    //     matched: filteredItems.length,
+    //     total: items.length,
+    //   };
+    // },
+  };
+});
 
 export const useItems = () => {
   const items = useTreeStore((state) => state.items);
@@ -88,8 +100,7 @@ export const usePriorityFilter = () => {
 };
 
 export const useGetFilteredItems = () => {
-  const getFilteredItems = useTreeStore((state) => state.getFilteredItems());
-  return getFilteredItems;
+  return useTreeStore((state) => state.filteredItems);
 };
 
 // export const useGetMatchCount = () => {
