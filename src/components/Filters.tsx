@@ -11,27 +11,12 @@ import { Select } from "./ui/select";
 import RenderCounter from "./ui/renderCounter";
 import { FilterCounter } from "./FilterCounter";
 
+// export function Filters({ matched, total }: { matched: number; total: number }) {
 export function Filters() {
-  const items = useItems();
   const searchQuery = useSearchQuery();
   const priorityFilter = usePriorityFilter();
   const setSearchQuery = useTreeStore((state) => state.setSearchQuery);
   const setPriorityFilter = useTreeStore((state) => state.setPriorityFilter);
-
-  // Compute match count with useMemo to avoid infinite loops
-  // const { matched, total } = useMemo(() => {
-  //   const filteredItems =
-  //     searchQuery === "" && priorityFilter === "all"
-  //       ? items
-  //       : items.filter((item) =>
-  //           itemOrDescendantsMatch(item, items, searchQuery, priorityFilter)
-  //         );
-
-  //   return {
-  //     matched: filteredItems.length,
-  //     total: items.length,
-  //   };
-  // }, [items, searchQuery, priorityFilter]);
 
   return (
     <div className="border-b border-border bg-background sticky top-0 z-10">
@@ -45,10 +30,10 @@ export function Filters() {
                 type="text"
                 placeholder="Search items..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                // onChange={(e) =>
-                //   startTransition(() => setSearchQuery(e.target.value))
-                // }
+                // onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) =>
+                  startTransition(() => setSearchQuery(e.target.value))
+                }
                 className="!pl-9"
               />
             </div>

@@ -2,6 +2,10 @@
 
 A performance comparison demo showcasing **React 18** with and without the **React Compiler**. Built with Vite, TypeScript, Zustand, and Tailwind CSS, this application demonstrates how the React Compiler can automatically optimize React applications without manual memoization.
 
+## Slides
+
+https://docs.google.com/presentation/d/1_aplEIDQRF2JUyTSgFlQwNK9InNXKaH5/edit?usp=sharing&ouid=106548637437550119704&rtpof=true&sd=true
+
 ## 🎯 Overview
 
 This demo application features a hierarchical tree view with filtering and search capabilities. It includes over 200 root items with nested children (depth up to 3 levels), totaling thousands of nodes. The app intentionally includes performance bottlenecks to demonstrate the impact of React Compiler optimizations.

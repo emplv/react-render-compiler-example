@@ -6,8 +6,8 @@ const useRenderCounter = () => {
   return counterRef.current;
 };
 
-// const showCounter = true;
-const showCounter = false;
+const showCounter = true;
+// const showCounter = false;
 
 export default function RenderCounter({
   children,

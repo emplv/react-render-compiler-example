@@ -12,6 +12,10 @@ export function FilterCounter() {
   const searchQuery = useSearchQuery();
   const priorityFilter = usePriorityFilter();
 
+  for (let i = 0; i < 5e6;) {
+    i++;
+  }
+
   // Compute match count with useMemo to avoid infinite loops
   const { matched, total } = useMemo(() => {
     const filteredItems =
